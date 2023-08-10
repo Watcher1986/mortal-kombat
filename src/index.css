@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body,
+html,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  background-image: radial-gradient(
+    circle,
+    #787f8b,
+    #6c707a,
+    #5f6269,
+    #535359,
+    #464649
+  );
+}
