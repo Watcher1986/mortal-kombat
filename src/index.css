@@ -15,9 +15,17 @@ html,
   background-image: radial-gradient(
     circle,
     #787f8b,
-    #6c707a,
-    #5f6269,
-    #535359,
-    #464649
+    #696e78,
+    #5a5d65,
+    #4c4d53,
+    #3d3d41
   );
+
+  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Noto Sans', sans-serif;
+  font-family: 'Permanent Marker', cursive;
+}
+
+.text-shadow {
+  text-shadow: 5px 3px 6px #000;
 }

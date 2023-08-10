@@ -1,8 +1,8 @@
-import PlayersBoard from './components/players_board';
+import PlayersBoard from './components/PlayersBoard';
 
 function App() {
   return (
-    <div className='h-full w-full text-white text-4xl font-bold grid items-center text-center'>
+    <div className='h-full w-full grid items-center text-center'>
       <PlayersBoard />
     </div>
   );
