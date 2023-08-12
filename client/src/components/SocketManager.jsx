@@ -3,30 +3,34 @@ import { useEffect } from 'react';
 import { io } from 'socket.io-client';
 
 export const socket = io('http://localhost:3001');
-export const playersAtom = atom([]);
+export const sessionAtom = atom({
+  session: [],
+  id: '',
+});
 
 const SocketManager = () => {
-  const [_players, setPlayers] = useAtom(playersAtom);
+  // eslint-disable-next-line no-unused-vars
+  const [_sessionConfig, setSession] = useAtom(sessionAtom);
 
   useEffect(() => {
     function onConnect() {
-      console.log('connected');
+      console.log('The client has been connected');
     }
     function onDisconnect() {
-      console.log('disconnected');
+      console.log('The client has been disconnected');
     }
-    function onPlayers(player) {
-      setPlayers(player);
+    function onSession(session) {
+      setSession(session);
     }
 
     socket.on('connection', onConnect);
     socket.on('disconnect', onDisconnect);
-    socket.on('players', onPlayers);
+    socket.on('sessions', onSession);
 
     return () => {
       socket.off('connection', onConnect);
       socket.off('disconnect', onDisconnect);
-      socket.off('players', onPlayers);
+      socket.off('sessions', onSession);
     };
   }, []);
 };

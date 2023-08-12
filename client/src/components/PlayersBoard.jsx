@@ -1,23 +1,23 @@
 import { useCallback } from 'react';
-import { useAtom } from 'jotai';
 
-import { playersAtom } from './SocketManager';
 import { usePlayerSelect } from '../hooks/usePlayerSelect';
+import { useSession } from '../hooks/useSession';
+
 import PlayerCell from './PlayerCell';
 import SelectScreenAudio from './bg-sounds/SelectScreenAudio';
 
 import { playersIcons } from '../assets/images/players-icons';
 
 const PlayersBoard = () => {
-  const [players] = useAtom(playersAtom);
-  const { selectedPlayerIdx, setSelectedPlayerIdx, player } =
-    usePlayerSelect(playersIcons);
-
-  console.log(players);
+  const { player } = useSession();
+  const { selectedPlayerIdx, setSelectedPlayerIdx } = usePlayerSelect(
+    playersIcons,
+    +player
+  );
 
   const onSelectPlayer = useCallback(
-    (player) => {
-      setSelectedPlayerIdx(player);
+    (fighter) => {
+      setSelectedPlayerIdx(fighter);
     },
     [setSelectedPlayerIdx]
   );
@@ -34,7 +34,8 @@ const PlayersBoard = () => {
             <PlayerCell
               key={`${icon}-${idx}`}
               idx={idx}
-              player={icon}
+              playerIcon={icon}
+              player={+player}
               isSelected={idx === selectedPlayerIdx}
               onSelect={onSelectPlayer}
             />

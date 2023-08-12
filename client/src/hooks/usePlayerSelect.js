@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
 
-export const usePlayerSelect = (players) => {
+export const usePlayerSelect = (fighters, playerNum) => {
   const gridColumns = 5;
-  const totalCells = players.length;
+  const totalCells = fighters.length;
 
-  const [selectedPlayerIdx, setSelectedPlayerIdx] = useState(0);
+  const [selectedPlayerIdx, setSelectedPlayerIdx] = useState(null);
   const [player, setPlayer] = useState(null);
+
+  useEffect(() => {
+    if (playerNum && selectedPlayerIdx === null) {
+      setSelectedPlayerIdx(playerNum === 1 ? 0 : 4);
+    }
+  }, [playerNum]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -33,7 +39,7 @@ export const usePlayerSelect = (players) => {
           });
           break;
         case 'Enter':
-          setPlayer(players[selectedPlayerIdx]);
+          setPlayer(fighters[selectedPlayerIdx]);
           break;
         default:
           break;
@@ -45,7 +51,7 @@ export const usePlayerSelect = (players) => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [selectedPlayerIdx, totalCells, players]);
+  }, [selectedPlayerIdx, totalCells, fighters]);
 
   return {
     selectedPlayerIdx,

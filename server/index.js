@@ -8,28 +8,29 @@ const io = new Server({
 
 io.listen(3001);
 
-const players = [];
+const sessions = [];
 
 io.on('connection', (socket) => {
   console.log('connected');
 
-  players.push({
+  sessions.push({
     id: socket.id,
   });
 
   socket.emit('hello');
 
-  io.emit('players', players);
-
-  // socket.on('message', (message) => {})
+  io.emit('sessions', {
+    sessions,
+    id: socket.id,
+  });
 
   socket.on('disconnect', () => {
     console.log('disconnected');
 
-    players.splice(
-      players.findIndex((p) => p.id === socket.id),
+    sessions.splice(
+      sessions.findIndex((p) => p.id === socket.id),
       1
     );
-    io.emit('players', players);
+    io.emit('sessions', sessions);
   });
 });
