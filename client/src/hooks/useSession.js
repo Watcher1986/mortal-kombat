@@ -1,33 +1,49 @@
 import { useState, useEffect } from 'react';
 import { useAtom } from 'jotai';
 
-import { sessionAtom } from '../components/SocketManager';
+import { sessionAtom } from '../services/socket_service';
+import { getPlayerNum } from '../helpers/getPlayerNum';
 
 export const useSession = () => {
   const [sessionConfig] = useAtom(sessionAtom);
   const [sessionId, setSessionId] = useState('');
   const [playerNum, setPlayerNum] = useState(0);
 
-  const playerFromSessionStorage = sessionStorage.getItem('player');
-  const sesssionIdFromSessionStorage = sessionStorage.getItem('sessionId');
+  const { sessions, id } = sessionConfig;
 
   useEffect(() => {
-    if (!sessionId && sessionConfig.id && !playerFromSessionStorage) {
-      const { sessions, id } = sessionConfig;
+    if (!sessionId && id) {
       setSessionId(id);
 
-      const sessionIndex = sessions.findIndex((s) => s.id === id);
-      const player = (sessionIndex + 1) % 2 === 0 ? 2 : 1;
+      const player = getPlayerNum(sessions, id);
 
       setPlayerNum(player);
       sessionStorage.setItem('sessionId', id);
-      sessionStorage.setItem('player', +player);
+      sessionStorage.setItem('player', player);
       sessionStorage.setItem('rooms', sessions.length);
     }
-  }, [sessionConfig, sessionId, playerFromSessionStorage]);
+  }, [id, sessions, sessionId]);
+
+  useEffect(() => {
+    const openSessions = sessions?.length;
+
+    if (openSessions === 1 && sessionId) {
+      setPlayerNum(openSessions);
+      sessionStorage.setItem('player', openSessions);
+      sessionStorage.setItem('rooms', openSessions);
+    }
+
+    if (openSessions > 1 && sessionId) {
+      const player = getPlayerNum(sessions, sessionId);
+
+      setPlayerNum(player);
+      sessionStorage.setItem('player', player);
+      sessionStorage.setItem('rooms', sessions.length);
+    }
+  }, [sessions, sessionId]);
 
   return {
-    player: playerFromSessionStorage ?? playerNum,
-    sessionId: sesssionIdFromSessionStorage ?? sessionId,
+    player: playerNum,
+    sessionId: sessionId,
   };
 };

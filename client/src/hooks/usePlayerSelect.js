@@ -9,7 +9,8 @@ export const usePlayerSelect = (fighters, playerNum) => {
 
   useEffect(() => {
     if (playerNum && selectedPlayerIdx === null) {
-      setSelectedPlayerIdx(playerNum === 1 ? 0 : 4);
+      const initialPlayerIdx = playerNum % 2 === 0 ? 4 : 0;
+      setSelectedPlayerIdx(initialPlayerIdx);
     }
   }, [playerNum]);
 

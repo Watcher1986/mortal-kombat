@@ -1,5 +1,5 @@
+import SocketManager from './services/socket_service';
 import PlayersBoard from './components/PlayersBoard';
-import SocketManager from './components/SocketManager';
 
 function App() {
   return (

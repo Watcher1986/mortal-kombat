@@ -1,7 +1,7 @@
 import { useSetVolume } from '../../hooks/useSetVolume';
 
 const SelectScreenAudio = () => {
-  useSetVolume('select-board');
+  const audioRef = useSetVolume('select-board');
 
   return (
     <audio
@@ -11,6 +11,7 @@ const SelectScreenAudio = () => {
       autoPlay
       className='hidden'
       id='select-board'
+      ref={audioRef}
     />
   );
 };
